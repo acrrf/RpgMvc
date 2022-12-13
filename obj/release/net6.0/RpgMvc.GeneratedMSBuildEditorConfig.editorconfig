@@ -15,6 +15,18 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\anacl\DS-I\RpgMvc
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/anacl/DS-I/RpgMvc/Views/Disputas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzcHV0YXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anacl/DS-I/RpgMvc/Views/Disputas/IndexDisputas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzcHV0YXNcSW5kZXhEaXNwdXRhcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anacl/DS-I/RpgMvc/Views/Disputas/IndexHabilidades.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzcHV0YXNcSW5kZXhIYWJpbGlkYWRlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/anacl/DS-I/RpgMvc/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -57,6 +69,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/anacl/DS-I/RpgMvc/Views/Usuarios/CadastrarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcQ2FkYXN0cmFyVXN1YXJpby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anacl/DS-I/RpgMvc/Views/Usuarios/IndexInformacoes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcSW5kZXhJbmZvcm1hY29lcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/anacl/DS-I/RpgMvc/Views/Usuarios/_AlteracaoSenha.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcX0FsdGVyYWNhb1NlbmhhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/anacl/DS-I/RpgMvc/Views/_ViewImports.cshtml]

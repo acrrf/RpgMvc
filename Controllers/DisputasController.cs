@@ -5,7 +5,7 @@ using RpgMvc.Models;
 
 public class DisputasController : Controller
 {
-    public string uriBase = "http://acrrf.somee.com/RpgApi/Disputas/";
+    public string uriBase = "http://acrrf2.somee.com/RpgApi/Disputas/";
 
     [HttpGet]
     public async Task<ActionResult> IndexAsync()
@@ -16,7 +16,7 @@ public class DisputasController : Controller
             string? token = HttpContext.Session.GetString("SessionTokenUsuario");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            string uriBuscaPersonagens = "http://acrrf.somee.com/RpgApi/Personagens/GetAll";
+            string uriBuscaPersonagens = "http://acrrf2.somee.com/RpgApi/Personagens/GetAll";
             HttpResponseMessage response = await httpClient.GetAsync(uriBuscaPersonagens);
             string serialized = await response.Content.ReadAsStringAsync();
 
@@ -76,7 +76,7 @@ public class DisputasController : Controller
             string? token = HttpContext.Session.GetString("SessionTokenUsuario");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            string uriBuscaPersonagens = "http://acrrf.somee.com/RpgApi/Personagens/GetAll";
+            string uriBuscaPersonagens = "http://acrrf2.somee.com/RpgApi/Personagens/GetAll";
             HttpResponseMessage response = await httpClient.GetAsync(uriBuscaPersonagens);
             string serialized = await response.Content.ReadAsStringAsync();
 
@@ -91,7 +91,7 @@ public class DisputasController : Controller
             else
                 throw new System.Exception(serialized);
 
-            string uriBuscarHabilidades = "http://acrrf.somee.com/RpgApi/PersonagemHabilidades/GetHabilidade";
+            string uriBuscarHabilidades = "http://acrrf2.somee.com/RpgApi/PersonagemHabilidades/GetHabilidade";
             response = await httpClient.GetAsync(uriBuscarHabilidades);
             serialized = await response.Content.ReadAsStringAsync();
 

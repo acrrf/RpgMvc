@@ -3,27 +3,24 @@
     Layout = "";
 }
 <h2>Alteração de Senha</h2>
-@using (Html.BeginForm("AlterarSenha", "Usuarios", FormMethod.Post, new { id = "form" }))
+@using (Html.BeginForm("AlterarSenha", "Usuarios", FormMethod.Post, new { id = "formSenha" }))
 {
     <div class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly =
-            "readonly" }})
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" }})
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.PasswordString, htmlAttributes: new { @class =
-        "control-label col-md-2" })
+            @Html.LabelFor(model => model.PasswordString, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.PasswordString, new { htmlAttributes = new {
-            @class = "form-control" }})
+                @Html.EditorFor(model => model.PasswordString, new { htmlAttributes = new { @class = "form-control" }})
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-6">
-                <input onclick="AlterarSenha();" type="submit" value="Salvar" class="btn btnprimary" />
+                <input onclick="AlterarSenha();" type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </div>
     </div>
@@ -33,7 +30,8 @@
 <script type="text/javascript">
     function AlterarSenha() {
         var url = "@Url.Action("AlterarSenha", "Usuarios")";
-        var valdata = $("#form").serialize();
+        var valdata = $("#formSenha").serialize();
+        
         $.ajax({
             url: url,
             type: "POST",
@@ -42,7 +40,8 @@
             //data: { executorId: executorId },
             data: valdata,
             success: function (retorno) {
-                alert("Senha Alterada com sucesso");
+                alert(retorno);
+                window.location.href = "@Url.Action("IndexInformacoes", "Usuarios")";
             }
         });
     } 

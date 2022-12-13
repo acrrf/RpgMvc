@@ -10,7 +10,7 @@ namespace RpgMvc.Controllers
 {
     public class PersonagensController : Controller
     {
-        public string uriBase = "http://acrrf.somee.com/RpgApi/Personagens/";
+        public string uriBase = "http://acrrf2.somee.com/RpgApi/Personagens/";
 
 
         [HttpGet]
@@ -198,14 +198,14 @@ namespace RpgMvc.Controllers
                 string? token = HttpContext.Session.GetString("SessionTokenUsuario");
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                string uriBuscaPersonagens = "http://acrrf.somee.com/RpgApi/Personagens/GetAll";
+                string uriBuscaPersonagens = "http://acrrf2.somee.com/RpgApi/Personagens/GetAll";
                 HttpResponseMessage response = await httpClient.GetAsync(uriBuscaPersonagens);
 
                 string serialized = await response.Content.ReadAsStringAsync();
 
                 List<PersonagemViewModel>? listaPersonagens = await Task.Run(() => JsonConvert.DeserializeObject<List<PersonagemViewModel>>(serialized));
 
-                string uriDisputa = "http://acrrf.somee.com/RpgApi/Disputas/DisputaEmGrupo";
+                string uriDisputa = "http://acrrf2.somee.com/RpgApi/Disputas/DisputaEmGrupo";
                 DisputaViewModel? disputa = new DisputaViewModel();
                 disputa.ListaIdPersonagens = new List<int>();
                 disputa.ListaIdPersonagens.AddRange(listaPersonagens.Select(p => p.Id));

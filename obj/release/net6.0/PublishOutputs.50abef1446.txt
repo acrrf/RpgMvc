@@ -1,0 +1,11 @@
+C:\Users\anacl\DS-I\RpgMvc\Publish\RpgMvc.exe
+C:\Users\anacl\DS-I\RpgMvc\Publish\appsettings.Development.json
+C:\Users\anacl\DS-I\RpgMvc\Publish\appsettings.json
+C:\Users\anacl\DS-I\RpgMvc\Publish\RpgMvc.dll
+C:\Users\anacl\DS-I\RpgMvc\Publish\RpgMvc.deps.json
+C:\Users\anacl\DS-I\RpgMvc\Publish\RpgMvc.runtimeconfig.json
+C:\Users\anacl\DS-I\RpgMvc\Publish\RpgMvc.pdb
+C:\Users\anacl\DS-I\RpgMvc\Publish\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\anacl\DS-I\RpgMvc\Publish\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\anacl\DS-I\RpgMvc\Publish\Newtonsoft.Json.dll
+C:\Users\anacl\DS-I\RpgMvc\Publish\Newtonsoft.Json.Bson.dll

@@ -10,7 +10,7 @@ namespace RpgMvc.Controllers
 {
     public class UsuariosController : Controller
     {
-        public string uriBase = "http://acrrf.somee.com/RpgApi/Usuarios/";
+        public string uriBase = "http://acrrf2.somee.com/RpgApi/Usuarios/";
 
         [HttpGet]
         public ActionResult Index()
@@ -70,6 +70,17 @@ namespace RpgMvc.Controllers
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
+                    string uriComplementarPerfil = $"GetLogin/{u.Username}";
+                    HttpResponseMessage responsePerfil = await httpClient.GetAsync(uriBase + uriComplementarPerfil);
+                    string serializedPerfil = await responsePerfil.Content.ReadAsStringAsync();
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        UsuarioViewModel? usuario = await Task.Run(() => JsonConvert.DeserializeObject<UsuarioViewModel>(serializedPerfil));
+                        HttpContext.Session.SetString("SessionPerfilUsuario", usuario.Perfil);
+                    }
+
+
                     HttpContext.Session.SetString("SessionTokenUsuario", serialized);
 
                     HttpContext.Session.SetString("SessionUsername", u.Username);
@@ -98,7 +109,7 @@ namespace RpgMvc.Controllers
                 //Novo: Recuperação informação da sessão 
                 string? login = HttpContext.Session.GetString("SessionUsername");
                 string uriComplementar =
-               $"GetByLogin/{login}";
+               $"GetLogin/{login}";
                 HttpResponseMessage response = await httpClient.GetAsync(uriBase +
                uriComplementar);
                 string serialized = await response.Content.ReadAsStringAsync();
@@ -158,7 +169,7 @@ namespace RpgMvc.Controllers
             {
                 HttpClient httpClient = new HttpClient();
                 string? login = HttpContext.Session.GetString("SessionUsername");
-                string uriComplementar = $"GetByLogin/{login}";
+                string uriComplementar = $"GetLogin/{login}";
                 HttpResponseMessage response = await httpClient.GetAsync(uriBase + uriComplementar);
                 string serialized = await response.Content.ReadAsStringAsync();
 
@@ -205,6 +216,125 @@ namespace RpgMvc.Controllers
             catch (System.Exception ex)
             {
                 return Json(ex.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> EnviarFoto(UsuarioViewModel u)
+        {
+            try
+            {
+                if (Request.Form.Files.Count == 0)
+                    throw new System.Exception("Selecione o arquivo.");
+                else
+                {
+                    var file = Request.Form.Files[0];
+                    var fileName = Path.GetFileName(file.FileName);
+                    string nomeArquivoSemExtensao = Path.GetFileNameWithoutExtension(fileName);
+                    var extensao = Path.GetExtension(fileName);
+                    if (extensao != ".jpg" && extensao != "jpeg" && extensao != ".png")
+                        throw new System.Exception("O Arquivo selecionado não é uma foto.");
+
+                    using (var ms = new MemoryStream())
+                    {
+                        file.CopyTo(ms);
+                        u.Foto = ms.ToArray();
+                    }
+                }
+
+                HttpClient httpClient = new HttpClient();
+                string? token = HttpContext.Session.GetString("SessionTokenUsuario");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                string uriComplementar = "AtualizarFoto";
+                var content = new StringContent(JsonConvert.SerializeObject(u));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                HttpResponseMessage response = await httpClient.PutAsync(uriBase + uriComplementar, content);
+                string serialized = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    TempData["Mensagem"] = "Foto enviada com sucesso";
+                else
+                    throw new System.Exception(serialized);
+
+            }
+            catch (System.Exception ex)
+            {
+                TempData["MensagemErro"] = ex.Message;
+            }
+            return RedirectToAction("IndexInformacoes");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> BaixarFoto()
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                string? login = HttpContext.Session.GetString("SessionUsername");
+                string uriComplementar = $"GetLogin/{login}";
+                HttpResponseMessage response = await httpClient.GetAsync(uriBase + uriComplementar);
+                string serialized = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    UsuarioViewModel? viewModel = await Task.Run(() => JsonConvert.DeserializeObject<UsuarioViewModel>(serialized));
+                    //string contentType = "application/image";
+                    string contentType = System.Net.Mime.MediaTypeNames.Application.Octet;
+                    byte[]? fileBytes = viewModel.Foto;
+                    string fileName = $"Foto{viewModel.Username}_{DateTime.Now:ddMMyyyyHHmmss}.png"; // + extensao;
+                    return File(fileBytes, contentType, fileName);
+                }
+                else
+                    throw new System.Exception(serialized);
+            }
+            catch (System.Exception ex)
+            {
+                TempData["MensagemErro"] = ex.Message;
+                return RedirectToAction("IndexInformacoes");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Sair()
+        {
+            try
+            {
+                HttpContext.Session.Remove("SessionTokenUsuario");
+                HttpContext.Session.Remove("SessionUsername");
+                HttpContext.Session.Remove("SessionPerfilUsuario");
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (System.Exception ex)
+            {
+                TempData["MensagemErro"] = ex.Message;
+                return RedirectToAction("IndexInformacoes");
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ObterDadosAlteracaoSenha()
+        {
+            UsuarioViewModel viewModel = new UsuarioViewModel();
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                string? login = HttpContext.Session.GetString("SessionUsername");
+                string uriComplementar = $"GetLogin/{login}";
+                HttpResponseMessage response = await httpClient.GetAsync(uriBase +
+               uriComplementar);
+                string serialized = await response.Content.ReadAsStringAsync();
+                TempData["TituloModalExterno"] = "Alteração de Senha";
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    viewModel = await Task.Run(() =>
+                   JsonConvert.DeserializeObject<UsuarioViewModel>(serialized));
+                    return PartialView("_AlteracaoSenha", viewModel);
+                }
+                else
+                    throw new System.Exception(serialized);
+            }
+            catch (System.Exception ex)
+            {
+                TempData["MensagemErro"] = ex.Message;
+                return RedirectToAction("IndexInformacoes");
             }
         }
     }
